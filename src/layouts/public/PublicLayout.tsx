@@ -1,18 +1,14 @@
 import React from "react";
 import "./PublicLayout.css";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
-
+import { Outlet, useLocation } from "react-router-dom";
+import { NAV_LINKS } from "../../utilies/public.constant";
+import { BookFilled } from "@ant-design/icons";
 const { Header, Content, Footer } = Layout;
 
-const items = new Array(15).fill(null).map((_, index) => ({
-  key: index + 1,
-  label: `nav ${index + 1}`,
-}));
-interface PublicLayoutProps {
-  children: React.ReactNode;
-}
+const PublicLayout: React.FC = () => {
+  const location = useLocation();
 
-const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -20,13 +16,16 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
   return (
     <Layout>
       <Header style={{ display: "flex", alignItems: "center" }}>
-        <div className="logo">My Website</div>
+        <div className="logo">
+          {" "}
+          <BookFilled /> WhiteBook
+        </div>
         <Menu
           theme="dark"
           mode="horizontal"
-          defaultSelectedKeys={["2"]}
-          items={items}
-          style={{ flex: 1, minWidth: 0 }}
+          defaultSelectedKeys={[location.pathname]}
+          items={NAV_LINKS}
+          style={{ display: "flex", justifyContent: "flex-end", flex: 2 }}
         />
       </Header>
       <Content style={{ padding: "0 48px" }}>
@@ -43,7 +42,7 @@ const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
             borderRadius: borderRadiusLG,
           }}
         >
-          {children}
+          <Outlet />
         </div>
       </Content>
       <Footer style={{ textAlign: "center" }}>
