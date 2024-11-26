@@ -1,8 +1,11 @@
 import { Layout, Menu } from "antd";
-
+import { Outlet, useLocation } from "react-router-dom";
+import { ADMIN_NAV_LINKS } from "../../utilies/admin.constant";
 const { Header, Sider, Content, Footer } = Layout;
+import { BookFilled } from "@ant-design/icons";
 
-const AdminLayout = ({ children }: any) => {
+const AdminLayout = () => {
+  const location = useLocation();
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider collapsible>
@@ -10,13 +13,14 @@ const AdminLayout = ({ children }: any) => {
           className="logo"
           style={{ color: "white", padding: "20px", fontWeight: "bold" }}
         >
-          Admin Panel
+          <BookFilled /> WhiteBook
         </div>
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-          <Menu.Item key="1">Dashboard</Menu.Item>
-          <Menu.Item key="2">Users</Menu.Item>
-          <Menu.Item key="3">Settings</Menu.Item>
-        </Menu>
+        <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={[location.pathname]}
+          items={ADMIN_NAV_LINKS}
+        />
       </Sider>
       <Layout>
         <Header
@@ -32,7 +36,7 @@ const AdminLayout = ({ children }: any) => {
         <Content
           style={{ margin: "20px", background: "#fff", padding: "20px" }}
         >
-          {children}
+          <Outlet />
         </Content>
         <Footer style={{ textAlign: "center" }}>
           Admin Panel ©2024 Created with Ant Design
